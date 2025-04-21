@@ -36,6 +36,7 @@ easyocr==1.7.2
 emoji==2.14.1
 et_xmlfile==2.0.0
 fastapi==0.115.7
+fastmcp==1.0
 ffmpy==0.5.0
 filelock==3.17.0
 filetype==1.2.0
@@ -44,8 +45,8 @@ frozenlist==1.5.0
 fsspec==2024.12.0
 google-auth==2.38.0
 googleapis-common-protos==1.66.0
-gradio==5.13.1
-gradio_client==1.6.0
+gradio==5.14.0
+gradio_client==1.7.0
 grpcio==1.70.0
 h11==0.14.0
 html5lib==1.1
@@ -55,6 +56,11 @@ httpx==0.28.1
 httpx-sse==0.4.0
 huggingface-hub==0.27.1
 humanfriendly==10.0
+ibm-cos-sdk==2.13.5
+ibm-cos-sdk-core==2.13.5
+ibm-cos-sdk-s3transfer==2.13.5
+ibm_watson_machine_learning==1.0.367
+ibm_watsonx_ai==1.3.8
 idna==3.10
 imageio==2.37.0
 importlib_metadata==8.5.0
@@ -62,6 +68,7 @@ importlib_resources==6.5.2
 iniconfig==2.0.0
 Jinja2==3.1.5
 jiter==0.8.2
+jmespath==1.0.1
 joblib==1.4.2
 jsonlines==3.1.0
 jsonpatch==1.33
@@ -74,7 +81,7 @@ kubernetes==32.0.0
 langchain==0.3.15
 langchain-community==0.3.15
 langchain-core==0.3.31
-langchain-openai==0.3.2
+langchain-ibm==0.3.8
 langchain-text-splitters==0.3.5
 langdetect==1.0.9
 langgraph==0.2.67
@@ -83,12 +90,14 @@ langgraph-sdk==0.1.51
 langsmith==0.3.2
 lazy_loader==0.4
 loguru==0.7.3
+lomond==0.3.3
 lxml==5.3.0
 Markdown==3.7
 markdown-it-py==3.0.0
 marko==2.1.2
 MarkupSafe==2.1.5
 marshmallow==3.26.0
+mcp==1.0.0
 mdurl==0.1.2
 mmh3==5.1.0
 monotonic==1.6
@@ -107,7 +116,6 @@ numpy==1.26.4
 oauthlib==3.2.2
 olefile==0.47
 onnxruntime==1.20.1
-openai==1.60.2
 opencv-python-headless==4.11.0.86
 openpyxl==3.1.5
 opentelemetry-api==1.29.0
@@ -124,7 +132,7 @@ orderly-set==5.2.3
 orjson==3.10.15
 overrides==7.7.0
 packaging==24.2
-pandas==2.2.3
+pandas==2.1.4
 pillow==10.4.0
 pluggy==1.5.0
 posthog==3.10.0
@@ -177,13 +185,13 @@ scipy==1.15.1
 semantic-version==2.10.0
 semchunk==2.2.2
 sentence-transformers==3.4.0
-setuptools==75.8.0
 shapely==2.0.6
 shellingham==1.5.4
 six==1.17.0
 sniffio==1.3.1
 soupsieve==2.6
 SQLAlchemy==2.0.37
+sse-starlette==2.2.1
 starlette==0.45.3
 sympy==1.13.1
 tabulate==0.9.0
@@ -203,7 +211,7 @@ typing_extensions==4.12.2
 tzdata==2025.1
 unstructured==0.16.15
 unstructured-client==0.25.9
-urllib3==2.3.0
+urllib3==1.26.18
 uvicorn==0.34.0
 uvloop==0.21.0
 watchfiles==1.0.4

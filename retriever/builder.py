@@ -1,5 +1,5 @@
 from langchain_community.vectorstores import Chroma
-from langchain_openai import OpenAIEmbeddings
+from langchain_ibm import WatsonxEmbeddings
 from langchain_community.retrievers import BM25Retriever
 from langchain.retrievers import EnsembleRetriever
 from config.settings import settings
@@ -10,7 +10,15 @@ logger = logging.getLogger(__name__)
 class RetrieverBuilder:
     def __init__(self):
         """Initialize the retriever builder with embeddings."""
-        self.embeddings = OpenAIEmbeddings(api_key=settings.OPENAI_API_KEY)
+        self.embeddings = WatsonxEmbeddings(
+            model_id=settings.IBM_MODEL_EMBEDDINGS,
+            url=settings.WATSONX_URL,
+            apikey=settings.WATSONX_API_KEY,
+            project_id=settings.WATSONX_PROJECT_ID,
+            params={
+                "truncate_input_tokens": 512
+            }
+        )
         
     def build_hybrid_retriever(self, docs):
         """Build a hybrid retriever using BM25 and vector-based retrieval."""

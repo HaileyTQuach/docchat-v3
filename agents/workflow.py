@@ -9,6 +9,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+MAX_ATTEMPTS = 2  # or whatever number you prefer
+
 class AgentState(TypedDict):
     question: str
     documents: List[Document]
@@ -16,6 +18,7 @@ class AgentState(TypedDict):
     verification_report: str
     is_relevant: bool
     retriever: EnsembleRetriever
+    attempts: int
 
 class AgentWorkflow:
     def __init__(self):
@@ -96,7 +99,8 @@ class AgentWorkflow:
                 draft_answer="",
                 verification_report="",
                 is_relevant=False,
-                retriever=retriever
+                retriever=retriever,
+                attempts=0
             )
             
             final_state = self.compiled_workflow.invoke(initial_state)
@@ -113,7 +117,7 @@ class AgentWorkflow:
         print(f"[DEBUG] Entered _research_step with question='{state['question']}'")
         result = self.researcher.generate(state["question"], state["documents"])
         print("[DEBUG] Researcher returned draft answer.")
-        return {"draft_answer": result["draft_answer"]}
+        return {"draft_answer": result["draft_answer"], "attempts": state["attempts"] + 1}
     
     def _verification_step(self, state: AgentState) -> Dict:
         print("[DEBUG] Entered _verification_step. Verifying the draft answer...")
@@ -123,7 +127,10 @@ class AgentWorkflow:
     
     def _decide_next_step(self, state: AgentState) -> str:
         verification_report = state["verification_report"]
-        print(f"[DEBUG] _decide_next_step with verification_report='{verification_report}'")
+        print(f"[DEBUG] _decide_next_step with verification_report='{verification_report}', attempts={state['attempts']}")
+        if state["attempts"] >= MAX_ATTEMPTS:
+            logger.info("[DEBUG] Max attempts reached, ending workflow.")
+            return "end"
         if "Supported: NO" in verification_report or "Relevant: NO" in verification_report:
             logger.info("[DEBUG] Verification indicates re-research needed.")
             return "re_research"

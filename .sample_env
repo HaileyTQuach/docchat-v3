@@ -1,0 +1,18 @@
+# DocChat Environment Variables - Template File
+# Copy this file to .env and replace the placeholders with your actual credentials
+#
+# Note: All application settings have sensible defaults and don't need to be specified
+# in the .env file. They are handled by the application's config/settings.py.
+
+# IBM watsonx.ai Credentials (Required)
+# OPENAI_API_KEY=YOUR_OPENAI_API_KEY
+WATSONX_API_KEY=YOUR_WATSONX_API_KEY
+WATSONX_URL=YOUR_WATSONX_URL  # Default: https://us-south.ml.cloud.ibm.com
+WATSONX_PROJECT_ID=YOUR_WATSONX_PROJECT_ID
+
+# Optional settings
+LOG_LEVEL=INFO
+
+# Optional model overrides
+# IBM_MODEL_RESEARCH=ibm/granite-20b-instruct-v2
+# IBM_MODEL_VERIFICATION=mistralai/mixtral-8x7b-instruct-v01

@@ -1,11 +1,28 @@
-from langchain_openai import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.schema.output_parser import StrOutputParser
 from config.settings import settings
 
+from langchain_ibm import WatsonxLLM
+from config.settings import settings
+from typing import Dict, List
+
 class RelevanceChecker:
     def __init__(self):
-        self.llm = ChatOpenAI(api_key=settings.OPENAI_API_KEY, model="gpt-4o")
+        self.llm = WatsonxLLM(
+            model_id=settings.IBM_MODEL_RELEVANCE,
+            url=settings.WATSONX_URL,
+            apikey=settings.WATSONX_API_KEY,
+            project_id=settings.WATSONX_PROJECT_ID,
+            params={
+                "temperature": 0.1,
+                "max_new_tokens": 1024,  # Increased for better context handling
+                "min_new_tokens": 1,
+                "top_p": 0.9,
+                "repetition_penalty": 1.05,
+                "stop_sequences": ["Human:", "Observation"],
+                "truncate_input_tokens": 4096  # Added to handle long inputs
+            }
+        )
 
         self.prompt = ChatPromptTemplate.from_template(
             """
@@ -68,13 +85,68 @@ class RelevanceChecker:
         
         print(f"[DEBUG] LLM raw classification response: '{response}'")
 
-        # Convert to uppercase, check if it's one of our valid labels
-        classification = response.upper()
-        valid_labels = {"CAN_ANSWER", "PARTIAL", "NO_MATCH"}
-        if classification not in valid_labels:
-            print("[DEBUG] LLM did not respond with a valid label. Forcing 'NO_MATCH'.")
-            classification = "NO_MATCH"
-        else:
-            print(f"[DEBUG] Classification recognized as '{classification}'.")
+
+        # Extract classification from response
+        classification = self._extract_classification_label(response)
+        print(f"[DEBUG] Extracted classification: '{classification}'.")
 
         return classification
+
+        # # Convert to uppercase, check if it's one of our valid labels
+        # classification = response.upper()
+        # valid_labels = {"CAN_ANSWER", "PARTIAL", "NO_MATCH"}
+        # if classification not in valid_labels:
+        #     print("[DEBUG] LLM did not respond with a valid label. Forcing 'NO_MATCH'.")
+        #     classification = "NO_MATCH"
+        # else:
+        #     print(f"[DEBUG] Classification recognized as '{classification}'.")
+
+        # return classification
+    
+    def _extract_classification_label(self, response: str) -> str:
+        """
+        Extract a valid classification label from the LLM response.
+        
+        Looks for "CAN_ANSWER", "PARTIAL", or "NO_MATCH" within the response text.
+        If multiple labels are found, returns the first one.
+        If no valid label is found, returns "NO_MATCH" as fallback.
+        """
+        valid_labels = {"CAN_ANSWER", "PARTIAL", "NO_MATCH"}
+        
+        # First check: Does the full response (uppercase) match a valid label?
+        full_response_upper = response.upper()
+        if full_response_upper in valid_labels:
+            return full_response_upper
+        
+        # Extra robust: Check for a valid label at the start of any line
+        import re
+        for line in response.splitlines():
+            match = re.match(r"^(CAN_ANSWER|PARTIAL|NO_MATCH)$", line.strip(), re.IGNORECASE)
+            if match:
+                candidate = match.group(1).upper()
+                if candidate in valid_labels:
+                    return candidate
+        
+        # Second check: Look for "## Response: LABEL" or similar patterns
+        label_patterns = [
+            r"## Response: (\w+)",              # Matches "## Response: CAN_ANSWER"
+            r"Response: (\w+)",                 # Matches "Response: CAN_ANSWER"
+            r"classification: (\w+)",           # Matches "classification: CAN_ANSWER"
+            r"classify as (\w+)",               # Matches "classify as CAN_ANSWER"
+        ]
+        
+        for pattern in label_patterns:
+            matches = re.findall(pattern, response, re.IGNORECASE)
+            if matches:
+                candidate = matches[0].upper()
+                if candidate in valid_labels:
+                    return candidate
+        
+        # Third check: Simply look for any of the valid labels in the response
+        for label in valid_labels:
+            if label in full_response_upper:
+                return label
+        
+        # If no valid label is found, default to "NO_MATCH"
+        print("[DEBUG] No valid classification label found in LLM response. Defaulting to 'NO_MATCH'.")
+        return "NO_MATCH"
