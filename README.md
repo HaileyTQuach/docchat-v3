@@ -68,7 +68,7 @@
 
 ### **1️⃣ Clone the Repository**  
 ```bash
-git clone https://github.com/HaileyTQuach/docchat-docling.git docchat
+git clone https://github.com/HaileyTQuach/docchat-v3.git docchat
 cd docchat
 ```
 
@@ -84,11 +84,12 @@ pip install -r requirements.txt
 ```
 
 ### **4️⃣ Set Up API Keys**  
-DocChat requires an OpenAI API key for processing. Add it to a `.env` file:
+DocChat requires IBM watsonx.ai credentials for processing. Add them to a `.env` file:
 ```bash
-OPENAI_API_KEY=your-api-key-here
+WATSONX_API_KEY=your-watsonx-api-key-here
+WATSONX_URL=your-watsonx-url-here  # Default: https://us-south.ml.cloud.ibm.com
+WATSONX_PROJECT_ID=your-watsonx-project-id-here
 ```
-
 
 ### **5️⃣ Run the Application** 
 ```bash
