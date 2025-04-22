@@ -15,8 +15,8 @@ class Settings(BaseSettings):
     IBM_MODEL_MAIN: str = "ibm/granite-3-3-8b-instruct" # Default model if agent-specific models not set
     
     # Agent-specific models (can be overridden in .env)
-    # IBM_MODEL_RESEARCH: str = "meta-llama/llama-3-3-70b-instruct"  # Model for the research agent
-    IBM_MODEL_RESEARCH: str = "ibm/granite-3-2-8b-instruct"  # Model for the research agent
+    IBM_MODEL_RESEARCH: str = "meta-llama/llama-3-3-70b-instruct"  # Model for the research agent
+    # IBM_MODEL_RESEARCH: str = "ibm/granite-3-3-8b-instruct"  # Model for the research agent
     IBM_MODEL_VERIFICATION: str = "ibm/granite-3-3-8b-instruct"  # Model for verification agent
     IBM_MODEL_RELEVANCE: str = "ibm/granite-3-3-8b-instruct"  # Model for relevance checker
     
@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     ALLOWED_TYPES: list = ALLOWED_TYPES
 
     # Database settings
-    CHROMA_DB_PATH: str = "./chroma_db"
+    CHROMA_DB_PATH: str = "./tmp/chroma_db"
     CHROMA_COLLECTION_NAME: str = "documents"
 
     # Retrieval settings
@@ -40,7 +40,7 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
 
     # New cache settings with type annotations
-    CACHE_DIR: str = "document_cache"
+    CACHE_DIR: str = "/tmp/docchat_cache"
     CACHE_EXPIRE_DAYS: int = 7
 
     class Config:

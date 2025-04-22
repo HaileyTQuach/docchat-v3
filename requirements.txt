@@ -31,6 +31,7 @@ docling==2.16.0
 docling-core==2.15.1
 docling-ibm-models==3.3.0
 docling-parse==3.1.2
+dotenv==0.9.9
 durationpy==0.9
 easyocr==1.7.2
 emoji==2.14.1
@@ -97,7 +98,7 @@ markdown-it-py==3.0.0
 marko==2.1.2
 MarkupSafe==2.1.5
 marshmallow==3.26.0
-mcp==1.0.0
+mcp==1.6.0
 mdurl==0.1.2
 mmh3==5.1.0
 monotonic==1.6

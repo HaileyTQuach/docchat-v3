@@ -32,14 +32,10 @@ class ResearchAgent:
         self.prompt = ChatPromptTemplate.from_template(
             """You are a research assistant that answers questions based on provided context.
             
-            Answer the following question based on the provided context. Be precise and factual.
+            Answer the following {question} based on the provided {context}. Be precise and factual.
             
             DO NOT add "Human:" or any other chat markers at the end of your response.
             
-            Question: {question}
-            
-            Context:
-            {context}
             
             If the context is insufficient, respond with: "I cannot answer this question based on the provided documents."
             """

@@ -1,8 +1,5 @@
 from loguru import logger
+import os
+import sys
 
-logger.add(
-    "app.log",
-    rotation="10 MB",
-    retention="30 days",
-    format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}"
-)
+logger.add(sys.stderr, level="INFO")
