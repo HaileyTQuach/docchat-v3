@@ -8,7 +8,7 @@ import sys
 from loguru import logger
 from retriever.builder import RetrieverBuilder
 
-load_dotenv("/Users/haileythaoquach/Desktop/DocChat-v3/docchat-docling/.env")
+load_dotenv()
 
 mcp = FastMCP("docchat")
 

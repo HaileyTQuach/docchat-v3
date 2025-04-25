@@ -49,7 +49,7 @@ googleapis-common-protos==1.66.0
 gradio==5.14.0
 gradio_client==1.7.0
 grpcio==1.70.0
-h11==0.14.0
+h11>=0.16.0
 html5lib==1.1
 httpcore==1.0.7
 httptools==0.6.4
@@ -202,7 +202,7 @@ tifffile==2025.1.10
 tiktoken==0.8.0
 tokenizers==0.21.0
 tomlkit==0.13.2
-torch==2.5.1
+torch>=2.6.0
 torchvision==0.20.1
 tqdm==4.67.1
 transformers==4.48.1
